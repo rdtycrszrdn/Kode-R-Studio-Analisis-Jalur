@@ -1,0 +1,34 @@
+---
+title: "Analisis Jalur"
+author: "Arditya Criszardin"
+date: "2023-05-01"
+output: html_document
+---
+
+```{r}
+# Memasang paket "sem" jika belum terpasang
+# install.packages("sem")
+
+# Memuat data
+my_data <- read.csv("my_data.csv")
+
+# Membuat model jalur
+my_model <- specifyModel(
+  path = c("X1 -> Y", "X2 -> Y", "X3 -> Y"), # Menentukan jalur yang akan dianalisis
+  latent = "Y", # Menentukan variabel laten
+  manifest = c("X1", "X2", "X3"), # Menentukan variabel manifest
+  residuals = c("X1", "X2", "X3"), # Menentukan residual variabel manifest
+  stand = TRUE # Menentukan apakah variabel harus distandardisasi
+)
+
+# Melakukan Analisis Jalur dengan menggunakan paket "sem"
+my_path <- sem(my_model, data = my_data)
+
+# Menampilkan hasil Analisis Jalur
+summary(my_path)
+
+# Menampilkan plot jalur
+semPaths(my_path, "std", layout = "tree")
+
+```
+
